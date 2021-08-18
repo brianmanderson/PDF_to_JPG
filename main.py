@@ -1,16 +1,45 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+__author__ = 'Brian M Anderson'
+from pdf2image import convert_from_path
+import os
+import time
 
 
-# Press the green button in the gutter to run the script.
+class ConvertPDF(object):
+    def __init__(self):
+        self.path = r'\\ro-ariaimg-v\va_data$\HDR\Bravos\Documents'
+        self.needs_writing = []
+
+    def write_files(self):
+        time.sleep(1)
+        for file in self.needs_writing:
+            images = convert_from_path(os.path.join(self.path, file))
+            file_name = file.split('.PDF')[0]
+            for i in range(len(images)):
+                images[i].save(os.path.join(self.path, '{}_Page_{}.jpg'.format(file_name, i + 1)), 'JPEG')
+
+    def check_path(self):
+        all_files = os.listdir(self.path)
+        pdf_files = [i for i in all_files if i.endswith('.PDF')]
+        jpg_files = [i.split('_Page_')[0] for i in all_files if i.endswith('.jpg')]
+        self.needs_writing = []
+        for file in pdf_files:
+            if file.split('.PDF')[0] not in jpg_files:
+                self.needs_writing.append(file)
+        if self.needs_writing:
+            print('Writing files')
+            self.write_files()
+
+    def run(self):
+        while True:
+            time.sleep(5)
+            print('Running down folder')
+            self.check_path()
+
+
+def main():
+    file_writer = ConvertPDF()
+    file_writer.run()
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    main()
