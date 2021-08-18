@@ -30,8 +30,8 @@ class ConvertPDF(object):
             self.write_files()
 
     def run(self):
+        print('Running...')
         while True:
-            print('Sleeping...')
             time.sleep(5)
             self.check_path()
 
