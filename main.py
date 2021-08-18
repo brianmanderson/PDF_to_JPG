@@ -19,8 +19,8 @@ class ConvertPDF(object):
 
     def check_path(self):
         all_files = os.listdir(self.path)
-        pdf_files = [i for i in all_files if i.endswith('.PDF')]
-        jpg_files = [i.split('_Page_')[0] for i in all_files if i.endswith('.jpg')]
+        pdf_files = [i for i in all_files if i.lower().endswith('.PDF')]
+        jpg_files = [i.split('_Page_')[0] for i in all_files if i.lower().endswith('.jpg')]
         self.needs_writing = []
         for file in pdf_files:
             if file.split('.PDF')[0] not in jpg_files:
