@@ -13,13 +13,13 @@ class ConvertPDF(object):
         time.sleep(1)
         for file in self.needs_writing:
             images = convert_from_path(os.path.join(self.path, file))
-            file_name = file.split('.PDF')[0]
+            file_name = file[:-4]
             for i in range(len(images)):
                 images[i].save(os.path.join(self.path, '{}_Page_{}.jpg'.format(file_name, i + 1)), 'JPEG')
 
     def check_path(self):
         all_files = os.listdir(self.path)
-        pdf_files = [i for i in all_files if i.lower().endswith('.PDF')]
+        pdf_files = [i for i in all_files if i.lower().endswith('.pdf')]
         jpg_files = [i.split('_Page_')[0] for i in all_files if i.lower().endswith('.jpg')]
         self.needs_writing = []
         for file in pdf_files:
