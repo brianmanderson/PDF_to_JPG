@@ -31,8 +31,8 @@ class ConvertPDF(object):
 
     def run(self):
         while True:
+            print('Sleeping...')
             time.sleep(5)
-            print('Running down folder')
             self.check_path()
 
 
