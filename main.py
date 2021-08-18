@@ -23,7 +23,7 @@ class ConvertPDF(object):
         jpg_files = [i.split('_Page_')[0] for i in all_files if i.lower().endswith('.jpg')]
         self.needs_writing = []
         for file in pdf_files:
-            if file.split('.PDF')[0] not in jpg_files:
+            if file[:-4] not in jpg_files:
                 self.needs_writing.append(file)
         if self.needs_writing:
             print('Writing files')
