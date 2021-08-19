@@ -30,8 +30,6 @@ class ConvertPDF(object):
             print('Writing files')
             write_files(path=self.path, needs_writing=needs_writing)
 
-
-
     def run(self):
         print('Running...')
         while True:
