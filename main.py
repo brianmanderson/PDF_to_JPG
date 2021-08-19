@@ -4,30 +4,33 @@ import os
 import time
 
 
-class ConvertPDF(object):
-    def __init__(self):
-        self.path = r'\\ro-ariaimg-v\va_data$\HDR\Bravos\Documents'
-        self.needs_writing = []
+def write_files(path, needs_writing):
+    time.sleep(5)
+    for file in needs_writing:
+        images = convert_from_path(os.path.join(path, file))
+        file_name = file[:-4]
+        for i in range(len(images)):
+            images[i].save(os.path.join(path, '{}_Page_{}.jpg'.format(file_name, i + 1)), 'JPEG')
+    return None
 
-    def write_files(self):
-        time.sleep(1)
-        for file in self.needs_writing:
-            images = convert_from_path(os.path.join(self.path, file))
-            file_name = file[:-4]
-            for i in range(len(images)):
-                images[i].save(os.path.join(self.path, '{}_Page_{}.jpg'.format(file_name, i + 1)), 'JPEG')
+
+class ConvertPDF(object):
+    def __init__(self, path=r'\\ro-ariaimg-v\va_data$\HDR\Bravos\Documents'):
+        self.path = path
 
     def check_path(self):
         all_files = os.listdir(self.path)
         pdf_files = [i for i in all_files if i.lower().endswith('.pdf')]
         jpg_files = [i.split('_Page_')[0] for i in all_files if i.lower().endswith('.jpg')]
-        self.needs_writing = []
+        needs_writing = []
         for file in pdf_files:
             if file[:-4] not in jpg_files:
-                self.needs_writing.append(file)
-        if self.needs_writing:
+                needs_writing.append(file)
+        if needs_writing:
             print('Writing files')
-            self.write_files()
+            write_files(path=self.path, needs_writing=needs_writing)
+
+
 
     def run(self):
         print('Running...')
