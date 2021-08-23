@@ -5,12 +5,14 @@ import time
 
 
 def write_files(path, needs_writing):
-    time.sleep(5)
+    time.sleep(3)
     for file in needs_writing:
         images = convert_from_path(os.path.join(path, file))
         file_name = file[:-4]
         for i in range(len(images)):
-            images[i].save(os.path.join(path, '{}_Page_{}.jpg'.format(file_name, i + 1)), 'JPEG')
+            out_path = os.path.join(path, '{}_Page_{}.jpg'.format(file_name, i + 1))
+            if not os.path.exists(out_path):
+                images[i].save(out_path, 'JPEG')
     return None
 
 
